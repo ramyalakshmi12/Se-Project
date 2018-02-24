@@ -8,5 +8,5 @@ urlpatterns = [
 	url(r'postsignin/$', views.postsignin, name='postsignin'),
 	url(r'postsignup/$', views.postsignup, name='postsignup'),
 	url(r'logout/$', views.logout, name='logout'),
-	url(r'profile/$', views.profile, name='profile'),
+	url(r'^profile/$', views.profile, name='profile'),
 ]

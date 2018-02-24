@@ -10,13 +10,14 @@
   <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  
     <meta charset="utf-8">
     {% block head %}
       <title>Base Page</title>
     {% endblock %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'white.css'%}" type = "text/css">
+
   </head>
 
   <body>
@@ -50,12 +51,17 @@
 
             
     {% endblock %}
-
-  </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-<script>
-    $(document).ready(function(){
+    <!-- jQuery is required by Materialize to function -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script type="text/javascript">
+    //custom JS code
+     $(document).ready(function(){
        Materialize.toast('I am a toast!', 4000);
     });
-</script>
+  </script>
+
+  </body>
+
+
 </html>

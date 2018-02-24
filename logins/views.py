@@ -25,8 +25,9 @@ def base(request):
     print(email)
     return render(request, 'base.html')
 
-def signin(request, error = ''):
-	return render(request,'signin/signin.html', {"error": error})
+def signin(request, error = 'no velai'):
+    print(error)
+    return render(request,'signin/signin.html')
 
 def signup(request):
 	return render(request, 'signup/signup.html')
@@ -39,7 +40,9 @@ def postsignin(request):
         user = auth.sign_in_with_email_and_password(email,passw)
     except:
         message="invalid info"
-        return redirect(reverse(signin))
+        print("Not Working")
+        return redirect('', error = 'rishi')
+    print("Working")
     return redirect(reverse(base))
 
 def postsignup(request):

@@ -17,7 +17,7 @@
                   <div class="card center-align">
                     <div class="card-content">
                       <span class="card-title"><h3>Login</h3></span>
-                        <form class="container " method="post" action="postsignin/">
+                        <form class="container " method="post">
                           <div class = "row">
                             {% csrf_token %}
 
@@ -30,7 +30,7 @@
 					          <label for="password">Password</label>
         					</div>
                             <div class="input-field col m6">
-                              <button class="btn waves-effect waves-light" type="submit" name="action">
+                              <button class="btn waves-effect waves-light" name="action" onClick="setTimeout(Materialize.toast('Please verify your email id ', 4000)", 3000)>
                                 Login<i class="material-icons right">send</i>
                               </button>
                             </div>
@@ -45,5 +45,11 @@
               </div>
 
 
-
+<script type="text/javascript">
+    //custom JS code
+     myfunction() {
+       Materialize.toast('Please verify your email id ', 4000);
+       setTimeout(function(){}, 3000);
+    }
+  </script>
 {%endblock%}

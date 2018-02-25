@@ -23,10 +23,10 @@ def base(request):
         if keep['users'][0]['emailVerified']:
             return 0;
         email = keep['users'][0]['email']
-    return render(request, 'base.html') 
+    return render(request, 'base.html')
 
 def signin(request):
-    if request.session['mesgcount']:
+    if 'mesgcount' in request.session:
         request.session['mesgcount'] -= 1;
     else :
         request.session['mesgcount'] = 0

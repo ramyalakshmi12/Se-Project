@@ -27,10 +27,20 @@ def base(request):
 
 def signin(request):
     val = request.session.get('mesgcount')
+<<<<<<< HEAD
     if val > 0:
         error = request.session.get('mesg')
         val -=1
         print(val)
+=======
+    if val:
+        val -= 1;
+    else :
+        val = 0
+    error = ''
+    if val > 0:
+        error = request.session.get('mesg')
+>>>>>>> 536eef19200a94d9f6d24a6622d21072202cc458
     return render(request,'signin/signin.html', {'error': error})
 
 def signup(request):
@@ -46,7 +56,11 @@ def postsignin(request):
     except:
         message="invalid info"
         request.session['mesg'] = 'Invalid Username or Password'
+<<<<<<< HEAD
         request.session['mesgcount'] = int(1)
+=======
+        request.session['mesgcount'] = int(2)
+>>>>>>> 536eef19200a94d9f6d24a6622d21072202cc458
         return redirect(reverse(signin))
     print(user['localId'])
     session_id = user['localId']

@@ -18,15 +18,15 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 def base(request):
-    if user['idToken']:
-        keep = auth.get_account_info(user['idToken'])
+    if 'uid' in request.session:
+        keep = auth.get_account_info(request.session['uid'])
         if keep['users'][0]['emailVerified']:
             return 0;
         email = keep['users'][0]['email']
     return render(request, 'base.html') 
 
 def signin(request):
-    if request.session['mesgcount']:
+    if 'mesgcount' in request.session:
         request.session['mesgcount'] -= 1;
     else :
         request.session['mesgcount'] = 0
@@ -39,8 +39,6 @@ def signup(request):
     return render(request, 'signup/signup.html')
 
 def postsignin(request):
-
-    global user
     email = request.POST.get('email')
     passw = request.POST.get('password')
     try:
@@ -50,8 +48,8 @@ def postsignin(request):
         request.session['mesg'] = 'Invalid Username or Password'
         request.session['mesgcount'] = int(2)
         return redirect(reverse(signin))
-    print(user['localId'])
-    session_id = user['localId']
+    print(user['idToken'])
+    session_id = user['idToken']
     request.session['uid'] = str(session_id)
     return redirect(reverse(base))
 

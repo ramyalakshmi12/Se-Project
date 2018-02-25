@@ -17,20 +17,25 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 def base(request):
-    keep = auth.get_account_info(user['idToken'])
+    if user['idToken']:
+        keep = auth.get_account_info(user['idToken'])
+        if keep['users'][0]['emailVerified']:
+            return 0;
+        email = keep['users'][0]['email']
+    return render(request, 'base.html') 
 
-    '''if not(keep['users'][0]['emailVerified']):
-        return 0;'''
-    email = keep['users'][0]['email']
-    print(email)
-    return render(request, 'base.html')
-
-def signin(request, error = 'no velai'):
-    print(error)
-    return render(request,'signin/signin.html')
+def signin(request):
+    if request.session['mesgcount']:
+        request.session['mesgcount'] -= 1;
+    else :
+        request.session['mesgcount'] = 0
+    error = ''
+    if request.session.get('mesgcount') > 0:
+        error = request.session.get('mesg')
+    return render(request,'signin/signin.html', {'error': error})
 
 def signup(request):
-	return render(request, 'signup/signup.html')
+    return render(request, 'signup/signup.html')
 
 def postsignin(request):
     global user
@@ -39,10 +44,9 @@ def postsignin(request):
     try:
         user = auth.sign_in_with_email_and_password(email,passw)
     except:
-        message="invalid info"
-        print("Not Working")
-        return redirect('', error = 'rishi')
-    print("Working")
+        request.session['mesg'] = 'Invalid Username or Password'
+        request.session['mesgcount'] = int(2)
+        return redirect(reverse(signin))
     return redirect(reverse(base))
 
 def postsignup(request):
@@ -57,8 +61,8 @@ def postsignup(request):
     return render(request,'base.html',{"e":email})
 
 def logout(request):
-	auth.logout(request)
-	return render(request, 'base.html')
+    auth.logout(request)
+    return render(request, 'base.html')
 
 def profile(request):
     return render(request, 'profile/profile.html')

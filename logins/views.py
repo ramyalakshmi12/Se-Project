@@ -25,13 +25,22 @@ def base(request):
     email = keep['users'][0]['email']
     return render(request, 'base.html')
 
-def signin(request, error = ''):
-	return render(request,'signin/signin.html', {"error": error})
+def signin(request):
+    val = request.session.get('mesgcount')
+    if val:
+        val -= 1;
+    else :
+        val = 0
+    error = ''  
+    if val > 0:
+        error = request.session.get('mesg')
+    return render(request,'signin/signin.html', {'error': error})
 
 def signup(request):
 	return render(request, 'signup/signup.html')
 
 def postsignin(request):
+
     global user
     email = request.POST.get('email')
     passw = request.POST.get('password')
@@ -39,11 +48,12 @@ def postsignin(request):
         user = auth.sign_in_with_email_and_password(email,passw)
     except:
         message="invalid info"
+        request.session['mesg'] = 'Invalid Username or Password'
+        request.session['mesgcount'] = int(2)
         return redirect(reverse(signin))
     print(user['localId'])
     session_id = user['localId']
     request.session['uid'] = str(session_id)
-
     return redirect(reverse(base))
 
 def postsignup(request):

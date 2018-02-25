@@ -17,6 +17,7 @@
     {% endblock %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'white.css'%}" type = "text/css">
+
   </head>
 
   <body>
@@ -48,14 +49,19 @@
         </div>
       </div>
 
-            
-    {% endblock %}
 
-  </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-<script>
-    $(document).ready(function(){
+    {% endblock %}
+    <!-- jQuery is required by Materialize to function -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script type="text/javascript">
+    //custom JS code
+     $(document).ready(function(){
        Materialize.toast('I am a toast!', 4000);
     });
-</script>
+  </script>
+
+  </body>
+
+
 </html>

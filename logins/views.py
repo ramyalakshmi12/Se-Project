@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, reverse
 import pyrebase
+from django.contrib import auth as authe
 
 user = {}
 
@@ -38,15 +39,20 @@ def signup(request):
     return render(request, 'signup/signup.html')
 
 def postsignin(request):
+
     global user
     email = request.POST.get('email')
     passw = request.POST.get('password')
     try:
         user = auth.sign_in_with_email_and_password(email,passw)
     except:
+        message="invalid info"
         request.session['mesg'] = 'Invalid Username or Password'
         request.session['mesgcount'] = int(2)
         return redirect(reverse(signin))
+    print(user['localId'])
+    session_id = user['localId']
+    request.session['uid'] = str(session_id)
     return redirect(reverse(base))
 
 def postsignup(request):
@@ -58,6 +64,7 @@ def postsignup(request):
     except:
             message="invalid info"
             return render(request,'signup/signup.html',{"messg":message})
+
     return render(request,'base.html',{"e":email})
 
 def logout(request):

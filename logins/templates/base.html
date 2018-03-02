@@ -34,6 +34,7 @@
                   {% csrf_token %}
                   <div class="input-field col m6">
                     <button class="btn btn-large waves-effect waves-light center-align" type="submit" name="action" formaction="signin/">
+                    
                       Login<i class="material-icons right">send</i>
                     </button>
                   </div>
@@ -54,13 +55,15 @@
     <!-- jQuery is required by Materialize to function -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  {% if mesg %}
+
   <script type="text/javascript">
     //custom JS code
      $(document).ready(function(){
-       Materialize.toast('I am a toast!', 4000);
+       Materialize.toast('{{ mesg }}', 4000);
     });
   </script>
-
+  {% endif %}
   </body>
 
 

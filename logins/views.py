@@ -19,6 +19,7 @@ auth = firebase.auth()
 
 def base(request):
     if 'uid' in request.session:
+        print(request.session['uid'])
         keep = auth.get_account_info(request.session['uid'])
         if keep['users'][0]['emailVerified']:
             return 0;
@@ -48,7 +49,6 @@ def postsignin(request):
         request.session['mesg'] = 'Invalid Username or Password'
         request.session['mesgcount'] = int(2)
         return redirect(reverse(signin))
-    print(user['idToken'])
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
     return redirect(reverse(base))
@@ -78,5 +78,5 @@ def resetpassword(request):
         user = auth.send_password_reset_email(email)
     except:
         message="invalid info"
-        return render(request, 'base.html', {"messg":messsage})
+        return render(request, 'base.html', {"messg":message})
     return redirect(reverse(profile))

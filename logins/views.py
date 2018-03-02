@@ -18,22 +18,23 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 def base(request):
-    if 'uid' in request.session:
-        print(request.session['uid'])
+    '''if 'uid' in request.session:
         keep = auth.get_account_info(request.session['uid'])
         if keep['users'][0]['emailVerified']:
             return 0;
-        email = keep['users'][0]['email']
-    return render(request, 'base.html')
+        email = keep['users'][0]['email']'''
+    mesg = ''
+    if 'emailVerificationMesg' in request.session:
+        mesg = request.session.get('emailVerificationMesg')
+        request.session.pop('emailVerificationMesg', None)
+    
+    return render(request, 'base.html', {'mesg': mesg})
 
 def signin(request):
-    if 'mesgcount' in request.session:
-        request.session['mesgcount'] -= 1;
-    else :
-        request.session['mesgcount'] = 0
     error = ''
-    if request.session.get('mesgcount') > 0:
+    if 'mesg' in request.session:
         error = request.session.get('mesg')
+        request.session.pop('mesg', None)
     return render(request,'signin/signin.html', {'error': error})
 
 def signup(request):
@@ -59,11 +60,14 @@ def postsignup(request):
     passw = request.POST.get("pass")
     try:
         user = auth.create_user_with_email_and_password(email,passw)
+        auth.send_email_verification(user['idToken'])
+        request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
             message="invalid info"
             return render(request,'signup/signup.html',{"messg":message})
-
-    return render(request,'base.html',{"e":email})
+    session_id = user['idToken']
+    request.session['uid'] = str(session_id)
+    return redirect(reverse(base))
 
 def logout(request):
     auth.logout(request)

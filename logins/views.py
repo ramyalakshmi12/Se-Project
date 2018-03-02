@@ -69,7 +69,6 @@ def postsignup(request):
     except:
             message="invalid info"
             return render(request,'signup/signup.html',{"messg":message})
-
     return redirect(reverse(base))
 
 def logout(request):

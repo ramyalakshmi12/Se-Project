@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+
+
     <meta charset="utf-8">
     {% block head %}
       <title>Base Page</title>
@@ -79,7 +81,7 @@
         rules: {
             uname: {
                 required: true,
-                minlength: 5
+                minlength:6
             },
             cemail: {
                 required: true,
@@ -87,11 +89,11 @@
             },
             password: {
         required: true,
-        minlength: 5
+        minlength: 6
       },
       cpassword: {
         required: true,
-        minlength: 5,
+        minlength: 6,
         equalTo: "#password"
       },
       curl: {
@@ -110,7 +112,7 @@
         messages: {
             uname:{
                 required: "Enter a username",
-                minlength: "Enter at least 5 characters"
+                minlength: "Enter at least 6 characters"
             },
             curl: "Enter your website",
         },

@@ -16,6 +16,7 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
+db = firebase.database()
 
 def base(request):
     '''if 'uid' in request.session:
@@ -38,7 +39,7 @@ def signin(request):
     return render(request,'signin/signin.html', {'error': error})
 
 def signup(request):
-    return render(request, 'signup/signup.html')
+    return render(request, 'signup/signup.html', {})
 
 def postsignin(request):
     email = request.POST.get('email')
@@ -55,12 +56,24 @@ def postsignin(request):
     return redirect(reverse(base))
 
 def postsignup(request):
-    name  = request.POST.get("name")
-    email = request.POST.get("email")
-    passw = request.POST.get("pass")
+    name  = request.POST.get("uname")
+    email = request.POST.get("cemail")
+    passw = request.POST.get("password")
+    gender = request.POST.get("cgender")
+    agree = request.POST.get("cagree")
+    print("name = " + str(name) )
+    print("email = " + str(email) )
+    print("passw = " + str(passw) )
+    print("gender = " + str(gender) )
+    print("agree = " + str(agree) )
     try:
-        user = auth.create_user_with_email_and_password(email,passw)
+        user = auth.create_user_with_email_and_password(email, passw)
         auth.send_email_verification(user['idToken'])
+        data = { 'name': name,
+                 'email': email,
+                 'gender': gender
+               }
+        db.child("users").child(email.split('@')[0]).set(data)
         request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
             message="invalid info"

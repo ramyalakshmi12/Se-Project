@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+</head>
+{% block head %}
+    <title>Booking Page</title>
+    {% endblock %}
+  <body>
+  {%block body%}
+  <div class="row " style="height:150px;"></div>
+  <div class="row" style="height:300px">
+   <div class="col s12">
+     <div class=" col s8 offset-s2 ">
+       <div class="card center-align">
+     <div class="card white">
+      <div class="card-content black-text">
+     <div class="row">
+       <div class="input-field col s4">
+         <i class="material-icons prefix">flight_takeoff</i>
+         <input type="text" id="autocomplete" class="autocomplete">
+         <label for="autocomplete">From</label>
+
+       </div>
+       <div class="input-field col s4 offset-s3">
+         <i class="material-icons prefix">flight_land</i>
+         <input type="text" id="autocomplete" class="autocomplete">
+         <label for="autocomplete">To</label>
+
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+
+  {%endblock%}

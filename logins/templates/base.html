@@ -22,6 +22,10 @@
 
   <body>
     {% block body %}
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
       <div class="row " style="height:150px;"></div>
       <div class="row ">
         <div class=" col s6 offset-s3 ">
@@ -34,6 +38,10 @@
                   {% csrf_token %}
                   <div class="input-field col m6">
                     <button class="btn btn-large waves-effect waves-light center-align" type="submit" name="action" formaction="signin/">
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                       Login<i class="material-icons right">send</i>
                     </button>
                   </div>
@@ -54,6 +62,63 @@
     <!-- jQuery is required by Materialize to function -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<<<<<<< Updated upstream
+=======
+  <script type="text/javascript" src="{% static "js/autocomplete.js" %}"></script>
+  <script type="text/javascript">
+    $("#formValidate").validate({
+        rules: {
+            uname: {
+                required: true,
+                minlength:6
+            },
+            cemail: {
+                required: true,
+                email:true
+            },
+            password: {
+        required: true,
+        minlength: 6
+      },
+      cpassword: {
+        required: true,
+        minlength: 6,
+        equalTo: "#password"
+      },
+      curl: {
+                required: true,
+                url:true
+            },
+            crole:"required",
+            ccomment: {
+        required: true,
+        minlength: 15
+            },
+            cgender:"required",
+      cagree:"required",
+        },
+        //For custom messages
+        messages: {
+            uname:{
+                required: "Enter a username",
+                minlength: "Enter at least 6 characters"
+            },
+            curl: "Enter your website",
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            error.insertAfter(element);
+          }
+        }
+     });
+    </script>
+  {% if mesg %}
+
+>>>>>>> Stashed changes
   <script type="text/javascript">
     //custom JS code
      $(document).ready(function(){

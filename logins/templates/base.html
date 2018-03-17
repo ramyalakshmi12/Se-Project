@@ -11,21 +11,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+
+
     <meta charset="utf-8">
     {% block head %}
       <title>Base Page</title>
     {% endblock %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'white.css'%}" type = "text/css">
-
+    <link rel="stylesheet" href="{% static 'prism.css'%}" type = "text/css">
+    <link rel="stylesheet" href="{% static 'chartist.css'%}" type = "text/css">
+     <nav>
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">Ticketology</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/signin">login</a></li>
+        <li><a href="/signup">signup</a></li>
+        <li><a href="/profile">profile</a></li>
+      </ul>
+    </div>
+  </nav>
   </head>
 
   <body>
     {% block body %}
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
       <div class="row " style="height:150px;"></div>
       <div class="row ">
         <div class=" col s6 offset-s3 ">
@@ -38,10 +48,7 @@
                   {% csrf_token %}
                   <div class="input-field col m6">
                     <button class="btn btn-large waves-effect waves-light center-align" type="submit" name="action" formaction="signin/">
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
                       Login<i class="material-icons right">send</i>
                     </button>
                   </div>
@@ -60,10 +67,14 @@
 
     {% endblock %}
     <!-- jQuery is required by Materialize to function -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="{% static 'jquery.validate.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'additional-methods.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'chartist.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'angular.min.js'%}"></script>
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-<<<<<<< Updated upstream
-=======
   <script type="text/javascript" src="{% static "js/autocomplete.js" %}"></script>
   <script type="text/javascript">
     $("#formValidate").validate({
@@ -118,14 +129,14 @@
     </script>
   {% if mesg %}
 
->>>>>>> Stashed changes
   <script type="text/javascript">
+
     //custom JS code
      $(document).ready(function(){
-       Materialize.toast('I am a toast!', 4000);
+       Materialize.toast('{{ mesg }}', 4000);
     });
   </script>
-
+  {% endif %}
   </body>
 
 

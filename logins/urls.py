@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'postsignup/$', views.postsignup, name='postsignup'),
 	url(r'logout/$', views.logout, name='logout'),
 	url(r'^profile/$', views.profile, name='profile'),
+	url(r'resetpassword/$', views.resetpassword, name='resetpassword')
 ]

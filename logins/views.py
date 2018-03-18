@@ -85,7 +85,7 @@ def postsignup(request):
                }
         db = firebase.database()
         db.child("users").child(email.split('@')[0]).set(data)
-        print(user)
+
         request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
             message="invalid info"

@@ -4,6 +4,9 @@ body{
 .card {
         margin: 0 auto; /* Added */
         float: none; /* Added */
-        margin-bottom: 100px; /* Added */
-        width:1000px;
+        margin-bottom: 10px; /* Added */
+
 }
+.card-small {
+     width:800px;
+    }

@@ -6,9 +6,8 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.conf.urls.static import static
-
 user = {}
-
+x = 0
 # Create your views here.
 config = {
     'apiKey': "AIzaSyA520VBeHVrhEF1hpJ13S2D1ZD94TlyNOE",
@@ -34,7 +33,7 @@ def base(request):
     if 'emailVerificationMesg' in request.session:
         mesg = request.session.get('emailVerificationMesg')
         request.session.pop('emailVerificationMesg', None)
-    
+
     return render(request, 'base.html', {'mesg': mesg})
 
 def signin(request):
@@ -52,13 +51,17 @@ def postsignin(request):
     passw = request.POST.get('password')
     try:
         user = auth.sign_in_with_email_and_password(email,passw)
+
     except:
         message="invalid info"
         request.session['mesg'] = 'Invalid Username or Password'
         request.session['mesgcount'] = int(2)
+        x = 0
         return redirect(reverse(signin))
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
+    x = 1
+    print("in login. views x = ",x)
     return redirect(reverse(base))
 
 def postsignup(request):
@@ -84,16 +87,19 @@ def postsignup(request):
                }
         db = firebase.database()
         db.child("users").child(email.split('@')[0]).set(data)
+        x = 1
         request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
             message="invalid info"
+            x = 0
             return render(request,'signup/signup.html',{"messg":message})
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
-    return redirect(reverse(base))
+    return redirect(v.book)
 
 def logout(request):
     auth.logout(request)
+    x = 0
     return render(request, 'base.html')
 
 def profile(request):

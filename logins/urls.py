@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
 	url(r'^$', views.base),
@@ -9,5 +11,10 @@ urlpatterns = [
 	url(r'postsignup/$', views.postsignup, name='postsignup'),
 	url(r'logout/$', views.logout, name='logout'),
 	url(r'^profile/$', views.profile, name='profile'),
-	url(r'resetpassword/$', views.resetpassword, name='resetpassword')
+	url(r'resetpassword/$', views.resetpassword, name='resetpassword'),
+	url(r'simple_upload/$', views.simple_upload, name='simple_upload'),
+	url(r'updateprofile/$', views.updateprofile, name='updateprofile'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -77,11 +77,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
   <script type="text/javascript" src="{% static "js/autocomplete.js" %}"></script>
   <script type="text/javascript">
+  $('#namebutton').click(function(){
+        $('#nametext').prop('disabled', false);
+  });
+</script>
+<script>
+  $("#FullNameButton").click(function() {
+    $("#FullName").attr('disabled', false);
+  });
+  $("#GenderButton").click(function() {
+    $("#Gender").attr('disabled', !$("#Gender").attr('disabled'));
+  });
+  $("#EmailIdButton").click(function() {
+    $("#EmailId").attr('disabled', !$("#EmailId").attr('disabled'));
+  });
+  $("#PhoneNumberButton").click(function() {
+    $("#PhoneNumber").attr('disabled', !$("#PhoneNumber").attr('disabled'));
+  });
+</script>
+  <script type="text/javascript">
     $("#formValidate").validate({
         rules: {
             uname: {
                 required: true,
                 minlength:6
+            },
+            unumber: {
+                required: true,
+                minlength:10
             },
             cemail: {
                 required: true,
@@ -113,6 +136,10 @@
             uname:{
                 required: "Enter a username",
                 minlength: "Enter at least 6 characters"
+            },
+            unumber:{
+                required: "Enter a number",
+                minlength: "Enter at least 10 digits"
             },
             curl: "Enter your website",
         },

@@ -1,6 +1,11 @@
 from django.shortcuts import render, HttpResponse, redirect, reverse
 import pyrebase
 from django.contrib import auth as authe
+from django.shortcuts import render
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.conf.urls.static import static
 
 user = {}
 
@@ -17,6 +22,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database()
+storage = firebase.storage()
 
 def base(request):
     '''if 'uid' in request.session:
@@ -58,6 +64,7 @@ def postsignin(request):
 def postsignup(request):
     name  = request.POST.get("uname")
     email = request.POST.get("cemail")
+    number = request.POST.get("unumber")
     passw = request.POST.get("password")
     gender = request.POST.get("cgender")
     agree = request.POST.get("cagree")
@@ -70,9 +77,12 @@ def postsignup(request):
         user = auth.create_user_with_email_and_password(email, passw)
         auth.send_email_verification(user['idToken'])
         data = { 'name': name,
+                 'number': number,
                  'email': email,
-                 'gender': gender
+                 'gender': gender,
+                 'profilepic': "NO"
                }
+        db = firebase.database()
         db.child("users").child(email.split('@')[0]).set(data)
         request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
@@ -87,7 +97,23 @@ def logout(request):
     return render(request, 'base.html')
 
 def profile(request):
-    return render(request, 'profile/profile.html')
+    email = auth.get_account_info(request.session['uid'])["users"][0]["email"]
+    url = "https://cdn0.iconfinder.com/data/icons/male-user-action-icon-set-4-ibrandify/512/25-512.png"
+    if db.child("users").child(email.split("@")[0]).child("profilepic").get().val() == "YES":
+        url = storage.child('images/' + email + '/profilepic').get_url(None)
+    data = db.child("users").child(email.split("@")[0]).get().val()
+    print(data['name'])
+    uploaded_file_url = "already uploaded"
+    if 'uploaded_file_url' in request.session:
+        uploaded_file_url = request.session['uploaded_file_url']
+    return render(request, 'profile/profile.html', {
+            'uploaded_file_url': uploaded_file_url,
+            'url': url,
+            'name': data['name'],
+            'gender': data['gender'],
+            'email': data['email'],
+            'number': data['number']
+        })
 
 def resetpassword(request):
     email = request.POST.get("email")
@@ -96,4 +122,34 @@ def resetpassword(request):
     except:
         message="invalid info"
         return render(request, 'base.html', {"messg":message})
+    return redirect(reverse(profile))
+
+def simple_upload(request):
+    email = auth.get_account_info(request.session['uid'])["users"][0]["email"]
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        storage.child("images/" + email + "/profilepic").put("." + uploaded_file_url)
+        db = firebase.database()
+        db.child("users").child(email.split("@")[0]).update({"profilepic": "YES"})
+        request.session['uploaded_file_url'] = uploaded_file_url
+        return redirect(reverse(profile))
+    request.FILES['myfile'] = None
+    return render(request, 'base.html')
+
+def updateprofile(request):
+    db = firebase.database()
+    email = auth.get_account_info(request.session['uid'])["users"][0]["email"]
+    print(email)
+    name = request.POST.get("FullName")
+    if name != None:
+        db.child("users").child(email.split("@")[0]).update({"name": name})
+    gender = request.POST.get("Gender")
+    if gender != None:
+        db.child("users").child(email.split("@")[0]).update({"gender": gender})
+    number = request.POST.get("PhoneNumber")
+    if number != None:
+        db.child("users").child(email.split("@")[0]).update({"number": number})
     return redirect(reverse(profile))

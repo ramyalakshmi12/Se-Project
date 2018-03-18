@@ -2,11 +2,22 @@ $(function() {
   $('input.autocomplete').autocomplete({
     data: {
       "Agartala": null,
-      "Mangalore": null,
-      "Varanasi": null,
-      "Chennai": null,
-      "Cochin":null,
-      "Patna":null
-    }
+      "Ahemdabad": null,
+      "Amritsar": null,
+      "Bengaluru": null,
+      "Chandigarh": null,
+      "Chennai":null,
+      "Coimbatore":null,
+      "Cochin": null,
+      "Hyderabad": null,
+      "Lucknow": null,
+      "Patana":null,
+      "Varanasi":null
+    },
+    limit: 3, // The max amount of results that can be shown at once. Default: Infinity.
+    onAutocomplete: function(val) {
+      // Callback function when value is autcompleted.
+    },
+    minLength: 0, // The minimum length of the input for the autocomplete to start. Default: 1.
   });
 });

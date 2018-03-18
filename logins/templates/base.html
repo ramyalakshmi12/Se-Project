@@ -28,6 +28,7 @@
         <li><a href="/signin">login</a></li>
         <li><a href="/signup">signup</a></li>
         <li><a href="/profile">profile</a></li>
+        <li><a href="/logout">logout</a></li>
       </ul>
     </div>
   </nav>
@@ -77,6 +78,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
   <script type="text/javascript" src="{% static "js/autocomplete.js" %}"></script>
   <script type="text/javascript">
+  $('select').material_select();
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,

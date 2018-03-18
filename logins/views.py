@@ -3,7 +3,6 @@ import pyrebase
 from django.contrib import auth as authe
 from booking import views as v
 user = {}
-x = 0
 # Create your views here.
 config = {
     'apiKey': "AIzaSyA520VBeHVrhEF1hpJ13S2D1ZD94TlyNOE",
@@ -46,17 +45,15 @@ def postsignin(request):
     passw = request.POST.get('password')
     try:
         user = auth.sign_in_with_email_and_password(email,passw)
-
+        print(user)
     except:
         message="invalid info"
         request.session['mesg'] = 'Invalid Username or Password'
         request.session['mesgcount'] = int(2)
-        x = 0
         return redirect(reverse(signin))
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
-    x = 1
-    print("in login. views x = ",x)
+    request.session['key'] = email.split('@')[0]
     return redirect(v.book)
 
 def postsignup(request):
@@ -78,21 +75,18 @@ def postsignup(request):
                  'gender': gender
                }
         db.child("users").child(email.split('@')[0]).set(data)
-        x = 1
+
         request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
             message="invalid info"
-            x = 0
             return render(request,'signup/signup.html',{"messg":message})
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
     return redirect(v.book)
 
 def logout(request):
-    auth.logout(request)
-    x = 0
-    return render(request, 'base.html')
-
+    request.session.pop('uid')
+    return redirect(reverse(v.book))
 def profile(request):
     return render(request, 'profile/profile.html')
 

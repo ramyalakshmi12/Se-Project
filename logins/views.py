@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.conf.urls.static import static
-from booking import views as v
+#from booking import views as v
 user = {}
 # Create your views here.
 config = {
@@ -60,7 +60,8 @@ def postsignin(request):
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
     request.session['key'] = email.split('@')[0]
-    return redirect(v.book)
+    #return redirect(v.book)
+    return redirect(reverse(base))
 
 def postsignup(request):
     name  = request.POST.get("uname")

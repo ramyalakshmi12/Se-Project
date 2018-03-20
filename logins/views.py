@@ -10,6 +10,7 @@ from django.conf.urls.static import static
 user = {}
 # Create your views here.
 config = {
+
     'apiKey': "AIzaSyA520VBeHVrhEF1hpJ13S2D1ZD94TlyNOE",
     "authDomain": "software-engineering-6e9a7.firebaseapp.com",
     'databaseURL': "https://software-engineering-6e9a7.firebaseio.com",

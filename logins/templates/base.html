@@ -23,11 +23,11 @@
     <link rel="stylesheet" href="{% static 'chartist.css'%}" type = "text/css">
      <nav>
     <div class="nav-wrapper container">
-      <a href="#" class="brand-logo">Ticketology</a>
+      <a href="/" class="brand-logo">Ticketology</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/signin">login</a></li>
-        <li><a href="/signup">signup</a></li>
-        <li><a href="/profile">profile</a></li>
+        <li><a href="/signin">SignIn</a></li>
+        <li><a href="/signup">SignUp</a></li>
+        <li><a href="/profile">Profile</a></li>
         <li><a href="/logout">logout</a></li>
       </ul>
     </div>
@@ -164,14 +164,17 @@
      });
     </script>
   {% if mesg %}
+   {% for i in mesg %}
 
   <script type="text/javascript">
 
     //custom JS code
      $(document).ready(function(){
-       Materialize.toast('{{ mesg }}', 4000);
+       Materialize.toast('{{ i }}', 4000);
     });
+
   </script>
+  {% endfor %}
   {% endif %}
   </body>
 

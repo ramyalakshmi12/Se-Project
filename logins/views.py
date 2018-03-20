@@ -24,16 +24,13 @@ db = firebase.database()
 storage = firebase.storage()
 
 def base(request):
-    '''if 'uid' in request.session:
-        keep = auth.get_account_info(request.session['uid'])
-        if keep['users'][0]['emailVerified']:
-            return 0;
-        email = keep['users'][0]['email']'''
-    mesg = ''
+    mesg = []
     if 'emailVerificationMesg' in request.session:
-        mesg = request.session.get('emailVerificationMesg')
+        mesg += request.session.get('emailVerificationMesg')
         request.session.pop('emailVerificationMesg', None)
-
+    if 'notsignedin' in request.session:
+        mesg += request.session.get('notsignedin')
+        request.session.pop('notsignedin')
     return render(request, 'base.html', {'mesg': mesg})
 
 def signin(request):
@@ -41,7 +38,15 @@ def signin(request):
     if 'mesg' in request.session:
         error = request.session.get('mesg')
         request.session.pop('mesg', None)
-    return render(request,'signin/signin.html', {'error': error})
+    mesg = []
+    if 'emailVerificationMesg' in request.session:
+        mesg += request.session.get('emailVerificationMesg')
+        request.session.pop('emailVerificationMesg', None)
+    if 'notsignedin' in request.session:
+        mesg.append(request.session.get('notsignedin'))
+        request.session.pop('notsignedin')
+    print(mesg)
+    return render(request,'signin/signin.html', {'error': error, 'mesg': mesg})
 
 def signup(request):
     return render(request, 'signup/signup.html', {})
@@ -93,12 +98,18 @@ def postsignup(request):
             return render(request,'signup/signup.html',{"messg":message})
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
-    return redirect(v.book)
+    mesg = []
+    mesg.append("Successfully Signed Up")
+    return render(request, 'base.html', {'mesg': mesg})
 
 def logout(request):
     request.session.pop('uid')
     return redirect(reverse(signin))
+
 def profile(request):
+    if 'uid' not in request.session:
+        request.session['notsignedin'] = "Please SignIn to avail the services"
+        return redirect(reverse(signin))
     email = auth.get_account_info(request.session['uid'])["users"][0]["email"]
     url = "https://cdn0.iconfinder.com/data/icons/male-user-action-icon-set-4-ibrandify/512/25-512.png"
     if db.child("users").child(email.split("@")[0]).child("profilepic").get().val() == "YES":

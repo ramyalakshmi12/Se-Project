@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-	url(r'^$', views.base),
+	url(r'^/$', views.base, name='base'),
 	url(r'^signin/$', views.signin, name='signin'),
 	url(r'^signup/$', views.signup, name='signup'),
 	url(r'postsignin/$', views.postsignin, name='postsignin'),

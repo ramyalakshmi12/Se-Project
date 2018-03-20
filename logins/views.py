@@ -41,7 +41,7 @@ def signin(request):
         request.session.pop('mesg', None)
     mesg = []
     if 'emailVerificationMesg' in request.session:
-        mesg += request.session.get('emailVerificationMesg')
+        mesg.append(request.session.get('emailVerificationMesg'))
         request.session.pop('emailVerificationMesg', None)
     if 'notsignedin' in request.session:
         mesg.append(request.session.get('notsignedin'))
@@ -67,7 +67,9 @@ def postsignin(request):
     request.session['uid'] = str(session_id)
     request.session['key'] = email.split('@')[0]
     #return redirect(v.book)
-    return redirect(reverse(base))
+    mesg = []
+    mesg.append("Successfully Signed In")
+    return render(request, 'base.html', {'mesg': mesg})
 
 def postsignup(request):
     name  = request.POST.get("uname")
@@ -104,7 +106,9 @@ def postsignup(request):
     return render(request, 'base.html', {'mesg': mesg})
 
 def logout(request):
-    request.session.pop('uid')
+    if 'uid' in request.session:
+        request.session.pop('uid')
+    request.session['notsignedin'] = 'Successfully Logged Out'
     return redirect(reverse(signin))
 
 def profile(request):

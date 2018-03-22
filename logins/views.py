@@ -41,7 +41,7 @@ def signin(request):
         request.session.pop('mesg', None)
     mesg = []
     if 'emailVerificationMesg' in request.session:
-        mesg += request.session.get('emailVerificationMesg')
+        mesg.append(request.session.get('emailVerificationMesg'))
         request.session.pop('emailVerificationMesg', None)
     if 'notsignedin' in request.session:
         mesg.append(request.session.get('notsignedin'))

@@ -6,10 +6,11 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.conf.urls.static import static
-#from booking import views as v
+from booking import views as v
 user = {}
 # Create your views here.
 config = {
+
     'apiKey': "AIzaSyA520VBeHVrhEF1hpJ13S2D1ZD94TlyNOE",
     "authDomain": "software-engineering-6e9a7.firebaseapp.com",
     'databaseURL': "https://software-engineering-6e9a7.firebaseio.com",
@@ -24,16 +25,13 @@ db = firebase.database()
 storage = firebase.storage()
 
 def base(request):
-    '''if 'uid' in request.session:
-        keep = auth.get_account_info(request.session['uid'])
-        if keep['users'][0]['emailVerified']:
-            return 0;
-        email = keep['users'][0]['email']'''
-    mesg = ''
+    mesg = []
     if 'emailVerificationMesg' in request.session:
-        mesg = request.session.get('emailVerificationMesg')
+        mesg += request.session.get('emailVerificationMesg')
         request.session.pop('emailVerificationMesg', None)
-
+    if 'notsignedin' in request.session:
+        mesg += request.session.get('notsignedin')
+        request.session.pop('notsignedin')
     return render(request, 'base.html', {'mesg': mesg})
 
 def signin(request):
@@ -41,7 +39,15 @@ def signin(request):
     if 'mesg' in request.session:
         error = request.session.get('mesg')
         request.session.pop('mesg', None)
-    return render(request,'signin/signin.html', {'error': error})
+    mesg = []
+    if 'emailVerificationMesg' in request.session:
+        mesg += request.session.get('emailVerificationMesg')
+        request.session.pop('emailVerificationMesg', None)
+    if 'notsignedin' in request.session:
+        mesg.append(request.session.get('notsignedin'))
+        request.session.pop('notsignedin')
+    print(mesg)
+    return render(request,'signin/signin.html', {'error': error, 'mesg': mesg})
 
 def signup(request):
     return render(request, 'signup/signup.html', {})
@@ -61,7 +67,9 @@ def postsignin(request):
     request.session['uid'] = str(session_id)
     request.session['key'] = email.split('@')[0]
     #return redirect(v.book)
-    return redirect(reverse(base))
+    mesg = []
+    mesg.append("Successfully Signed In")
+    return redirect(v.book)
 
 def postsignup(request):
     name  = request.POST.get("uname")
@@ -86,19 +94,27 @@ def postsignup(request):
                }
         db = firebase.database()
         db.child("users").child(email.split('@')[0]).set(data)
-
         request.session['emailVerificationMesg'] = 'Verification email has been sent'
     except:
             message="invalid info"
             return render(request,'signup/signup.html',{"messg":message})
     session_id = user['idToken']
     request.session['uid'] = str(session_id)
-    return redirect(v.book)
+    mesg = []
+    request.session['key'] = email.split('@')[0]
+    mesg.append("Successfully Signed Up")
+    return render(request, 'base.html', {'mesg': mesg})
 
 def logout(request):
-    request.session.pop('uid')
+    if 'uid' in request.session:
+        request.session.pop('uid')
+    request.session['notsignedin'] = 'Successfully Logged Out'
     return redirect(reverse(signin))
+
 def profile(request):
+    if 'uid' not in request.session:
+        request.session['notsignedin'] = "Please SignIn to avail the services"
+        return redirect(reverse(signin))
     email = auth.get_account_info(request.session['uid'])["users"][0]["email"]
     url = "https://cdn0.iconfinder.com/data/icons/male-user-action-icon-set-4-ibrandify/512/25-512.png"
     if db.child("users").child(email.split("@")[0]).child("profilepic").get().val() == "YES":
@@ -118,7 +134,7 @@ def profile(request):
         })
 
 def resetpassword(request):
-    email = request.POST.get("email")
+    print("coming")
     try:
         user = auth.send_password_reset_email(email)
     except:
@@ -145,6 +161,7 @@ def updateprofile(request):
     db = firebase.database()
     email = auth.get_account_info(request.session['uid'])["users"][0]["email"]
     print(email)
+    print("updateprofile")
     name = request.POST.get("FullName")
     if name != None:
         db.child("users").child(email.split("@")[0]).update({"name": name})

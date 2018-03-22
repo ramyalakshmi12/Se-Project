@@ -10,5 +10,8 @@ urlpatterns = [
 	url(r'postsignup/$', v.postsignup, name='postsignup'),
 	url(r'postbooking/$', views.postbooking, name='postbooking'),
 	url(r'logout/$', v.logout, name='logout'),
-	url(r'^profile/$', v.profile, name='profile')
+	url(r'^profile/$', v.profile, name='profile'),
+	url(r'^seat/$', views.seat, name='seat'),
+	url(r'^details/$', views.details, name='details'),
+	url(r'done/$',views.done,name="done")
     ]

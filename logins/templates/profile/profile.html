@@ -31,7 +31,7 @@
           <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
         </div>
         <div class="card-content">
-          
+
           <form form method="post" action= "simple_upload/" enctype="multipart/form-data">
           {% csrf_token %}
             <div class="file-field input-field">
@@ -41,7 +41,7 @@
               </div>
               <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" name="uploadimage" id="uploadimage">
-                
+
               </div>
             </div>
             <div class="row">
@@ -107,7 +107,7 @@
                       <label for="EmailId">Email Id</label>
                     </div>
                     <div class="col s1" style="font-size: 50px;">
-                      
+
                     </div>
                     <div class="input-field col s4">
                       <i class="material-icons prefix">call</i>
@@ -131,7 +131,8 @@
             </div>
           </div>
 
-      </div> 
+      </div>
+
       <div class="row">
         <div class="col s3"></div>
         <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
@@ -144,8 +145,8 @@
                   {% csrf_token %}
                     <p>Password Reset</p>
                     <div class="input-field col s12">
-                      <input id="email" type="email" class="validate" name="email">
-                      <label for="email">Email</label>
+                      <input id="email12" type="email" class="validate" name="email12">
+                      <label for="email12">Email</label>
                     </div>
                     <div class="input-field col m6">
                       <button class="btn waves-effect waves-light" type="submit" name="action">
@@ -157,9 +158,9 @@
             </div>
           </div>
 
-      </div> 
       </div>
-    </div>       
+      </div>
+    </div>
         </div>
       </div>
     {% endblock %}

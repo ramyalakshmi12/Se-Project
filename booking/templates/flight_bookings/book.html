@@ -20,30 +20,36 @@
      <div class="row">
        <div class="input-field col s4">
          <i class="material-icons prefix">flight_takeoff</i>
-         <input type="text" name ="from" id="From" class="autocomplete">
+         <input type="text" name ="from" id="From" class="autocomplete valiate" required="" aria-required="true">
          <label for="autocomplete">From</label>
 
        </div>
        <div class="input-field col s4 offset-s3">
          <i class="material-icons prefix">flight_land</i>
-         <input type="text" name ="to" id="To" class="autocomplete">
+         <input type="text" name ="to" id="To" class="autocomplete valiate" required="" aria-required="true">
          <label for="autocomplete">To</label>
 
        </div>
      </div>
      <div class="row " style="height:5px;"></div>
      <div class="row">
-       <div class="input-field col s3 offset-s4">
+       <div class="input-field col s4">
          <i class="material-icons prefix">date_range</i>
-        <input type="text" name="Date" id="datepicker" class="datepicker">
+        <input type="text" name="Date" id="datepicker" class="datepicker valiate" required="" aria-required="true">
         <label for="datepicker">Date</label>
         </div>
+        <div class="row">
+          <div class="input-field col s4 offset-s3">
+            <i class="material-icons prefix">seat</i>
+           <input type="text" name="Seat" id="datepicker" class="datepicker valiate" required="" aria-required="true">
+           <label for="datepicker">Date</label>
+          </div>
 
 </div>
     <label>Passenger(s)</label>
     <select class="browser-default" name="pass">
     <option value="" disabled selected >Passenger(s)</option>
-    <option value="1">1</option>
+    <option value="1" selected="selected">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
     <option value="4">4</option>
@@ -62,6 +68,19 @@
 </div>
 </div>
 </form>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
 
+    // for HTML5 "required" attribute
+    $("select[required]").css({
+      display: "inline",
+      height: 0,
+      padding: 0,
+      width: 0,
+      color: red
+    });
+  });
+</script>
 
   {%endblock%}

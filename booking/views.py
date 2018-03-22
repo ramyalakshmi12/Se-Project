@@ -8,7 +8,7 @@ user = {}
 config = {
     'apiKey': "AIzaSyA520VBeHVrhEF1hpJ13S2D1ZD94TlyNOE",
     "authDomain": "software-engineering-6e9a7.firebaseapp.com",
-    'databaseURL': "https://software-engineering-6e9a7.firebaseio.com",
+    'databaseURL': "https://software-engineering-6e9a7.firebaseio.com/",
     'projectId': "software-engineering-6e9a7",
     'storageBucket': "software-engineering-6e9a7.appspot.com",
     'messagingSenderId': "329135496498"
@@ -31,8 +31,30 @@ def postbooking(request):
             }
     if 'uid' in request.session :
         print("\n\n\n\n")
-        print(passengers)
+        print()
         db.child("users").child(request.session['key']).child("journey").set(data)
-        return HttpResponse("DONE")
+        j=0
+        d={}
+        for i in db.child('available').get().each():
+            print(i.val())
+            d[j]=i.val()
+            j+=1
+        return render(request, 'flight_bookings/show.html',{'all': d})
     else:
         return redirect(reverse(v.signin))
+def seat(request):
+    return render(request,'seat.html')
+def details(request):
+    x = db.child('users').child(request.session['key']).child('journey').get()
+    print('\n\n\n\n\n\n')
+    print(x.val())
+    return HttpResponse(x.val())
+def done(request):
+    seats=[]
+    for i in range(1,13):
+        y = request.POST.get(str(i))
+        if y=='on':
+            seats.append(i)
+    db.child('users').child(request.session['key']).child('journey').child('seats').set(seats)
+    print(y)
+    return HttpResponse(y)

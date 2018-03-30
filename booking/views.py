@@ -32,8 +32,13 @@ def postbooking(request):
     if 'uid' in request.session :
         print("\n\n\n\n")
         print()
+<<<<<<< HEAD
         request.session['b_no']+=1
         db.child("users").child(request.session['key']).child("journey").push(data)
+=======
+        request.session['booking_no']+=1
+        db.child("users").child(request.session['key']).child("journey").child(request.session['booking_no']).set(data)
+>>>>>>> 64995e970b961ed598b3fc489da75db8be5ee25e
         j=0
         d={}
         for i in db.child('available').get().each():
@@ -48,6 +53,7 @@ def seat(request):
 def details(request):
     print(request.session['key'])
     x = db.child('users').child(request.session['key']).child('journey').get()
+<<<<<<< HEAD
     w ={}
     for i in x.each():
         w=(i.val())
@@ -56,6 +62,12 @@ def details(request):
     print('x value \n\n\n\n\n\n')
     print('hello \n',w)
     return render(request,'details.html', w)
+=======
+    print('\n\n\n\n\n\n')
+    print(x.val())
+    #return HttpResponse(x.val())
+    return render(request,'details.html',{'all': x })
+>>>>>>> 64995e970b961ed598b3fc489da75db8be5ee25e
 def done(request):
     seats=[]
     for i in range(1,13):

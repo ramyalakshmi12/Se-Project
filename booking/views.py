@@ -56,6 +56,10 @@ def details(request):
     print('x value \n\n\n\n\n\n')
     print('hello \n',w)
     return render(request,'details.html', w)
+    print('\n\n\n\n\n\n')
+    print(x.val())
+    #return HttpResponse(x.val())
+    return render(request,'details.html',{'all': x })
 def done(request):
     seats=[]
     for i in range(1,13):

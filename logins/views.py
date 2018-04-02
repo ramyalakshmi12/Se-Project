@@ -101,6 +101,8 @@ def postsignup(request):
             return render(request,'signup/signup.html',{"messg":message})
     session_id = user['idToken']
     request.session['b_no']=0
+    request.session['booking_no']=0
+
     request.session['uid'] = str(session_id)
     mesg = []
     request.session['key'] = email.split('@')[0]

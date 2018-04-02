@@ -10,6 +10,7 @@
           <div class="col s12 m6">
             <div class="card blue-grey darken-1">
               <div class="card-content blue-text">
+              <div class="card-content white-text">
                 <span class="card-title">Your Bookings</span>
                 <table class="striped">
             <thead>
@@ -27,6 +28,14 @@
                 <td>{{ to }}</td>
                 <td>{{ date }}</td>
               </tr>
+              {% for k,v in all.items %}
+
+              <tr>
+                <td>{{ v.1.from }}</td>
+                <td>{{ v.1.to }}</td>
+                <td>{{ v.1.date }}</td>
+              </tr>
+              {% endfor %}
 
           </tbody>
           </table>

@@ -5,7 +5,7 @@
     {% endblock %}
   <body>
   {%block body%}
-
+<form class="formValidate" id="formValidate" method="post" action="seat/">{% csrf_token %}
   <div class="row " style="height:50px;"></div>
 
   <div class="row">
@@ -20,42 +20,31 @@
   <thead>
     <tr>
         <th>Air LInes</th><th>Departure</th><th>Arrival</th><th>Duration</th><th>Cost</th><th>Seats Left</th>
-        <th></th>
+        <th>BOOK</th>
     </tr>
   </thead>
 
   <tbody>
+    
     {% for k,v in all.items %}
 
     <tr>
-      <td>{{ v.airlines }}</td>
+      <td>{{ v.airlines }} {{ k }}</td>
       <td>{{ v.depart }}</td>
       <td>{{ v.arrival }}</td>
       <td>{{ v.duration }}</td>
       <td>{{ v.cost }}</td>
       <td>{{ v.seats }}</td>
-      <td> Book </td>
+      <td>  <button class="btn waves-effect waves-light" type="submit" name="{{ k }}" >
+     <i class="material-icons">send</i>
+   </button></td>
 
     </tr>
     {% endfor %}
 </tbody>
 </table>
 
-         <div class="card blue horizontal">
-           <div class="card-stacked">
-             <div class="card-content white-text">
-               <div class="row">
-                 <div class="col s2"><div class="card-panel teal lighten-2">Departure</div></div>
-                 <div class="col s2"><div class="card-panel teal lighten-2">Arrival</div></div>
-                 <div class="col s2"><div class="card-panel teal lighten-2">Duration</div></div>
-                 <div class="col s2"><div class="card-panel teal lighten-2">Air Lines</div></div>
-                 <div class="col s2"><div class="card-panel teal lighten-2">Cost</div></div>
-                 <div class="col s2"><div class="card-panel teal lighten-2">Seats Left</div></div>
-               </div>
 
-             </div>
-          </div>
-        </div>
       </div>
 
      <div class="row " style="height:5px;"></div>
@@ -64,16 +53,13 @@
 </div>
 
   </div>
-     <div class="row " style="height:50px;"></div>
-     <button class="btn waves-effect waves-light" type="submit" name="action" >Submit
-   <i class="material-icons right">send</i>
- </button>
+
  <div class="row " style="height:50px;"></div>
    </div>
  </div>
 </div>
 </div>
 </div>
-
+</form>
 
   {%endblock%}
